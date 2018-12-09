@@ -1,4 +1,6 @@
 import abc
+
+from models.cam import Camera
 from models.vector import Vector
 from models.control_point import ControlPoint
 from models.user import User
@@ -26,6 +28,14 @@ class IAccessControlSystem(metaclass=abc.ABCMeta):
     def has_access(self, door: ControlPoint, user: User) -> bool:
         pass
 
+    @abc.abstractmethod
+    def get_user_photo(self, user: User):
+        pass
+
+    @abc.abstractmethod
+    def get_unidentified_users(self) -> List[User]:
+        pass
+
 
 class IRepository(metaclass=abc.ABCMeta):
 
@@ -38,9 +48,12 @@ class IRepository(metaclass=abc.ABCMeta):
         pass
 
     @abc.abstractmethod
-    def get_cameras(self):  # TODO: разобраться с сущностями камер
+    def get_cameras(self) -> List[Camera]:  # TODO: разобраться с сущностями камер
         pass
 
+    @abc.abstractmethod
+    def save_user(self, user: User):
+        pass
 
 class IAuthorizer(metaclass=abc.ABCMeta):
 

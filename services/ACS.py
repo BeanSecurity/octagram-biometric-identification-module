@@ -2,7 +2,9 @@ from win32com import client
 
 from models.control_point import ControlPoint
 from models.user import User
+from models.vector import Vector
 from services.service_interfaces import IAccessControlSystem
+from typing import Dict, Tuple, List
 
 
 class AccessControlSystem(IAccessControlSystem):
@@ -21,11 +23,21 @@ class AccessControlSystem(IAccessControlSystem):
         Users = self._FlexDB.GetUsers4Device("S-1-0581B9AD-5CDC-4d86-A328-0D94A615A418") # TODO: брать SID двери из ControlPoint
         return User.key_id in [u.strSID for u in Users]
 
+    def get_user_photo(self, user: User): #TODO: забирать изображения из папки
+        pass
+
+    def get_unidentified_users(self) -> List[User]:
+        return [User(user.strSID, Vector('')) for user in self._FlexDB.GetUsers("", False, "")]
+
 
 #
+# import string
 # from models.control_point import ControlPoint
 # from models.user import User
+# from models.vector import Vector
 # from services.service_interfaces import IAccessControlSystem
+# import random
+# from typing import Dict, Tuple, List
 #
 #
 # class AccessControlSystem(IAccessControlSystem):
@@ -37,4 +49,11 @@ class AccessControlSystem(IAccessControlSystem):
 #         print("OPENED for: " + str(user))
 #
 #     def has_access(self, door: ControlPoint, user: User) -> bool:
-#         return True
+#         return False
+#
+#     def get_user_photo(self, user: User):  # TODO: забирать изображения из папки
+#         pass
+#
+#     def get_unidentified_users(self) -> List[User]:
+#         return [User(''.join(random.choice(string.ascii_lowercase) for i in range(10)),
+#                      Vector(''))]

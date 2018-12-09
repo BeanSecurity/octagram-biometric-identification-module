@@ -10,6 +10,9 @@ from core.authorizer import *
 from controllers.camera_controllers import *
 from controllers.octagram_controllers import *
 
+# from win32com import client
+
+
 app = Flask(__name__)
 
 #
@@ -18,7 +21,7 @@ app = Flask(__name__)
 #     return 'Hello World!'
 
 
-if __name__ == '__main__': #TODO: добавить логгирование
+if __name__ == '__main__':  # TODO: добавить логгирование
     authorizer = Authorizer(Repository(), Recognizer(), AccessControlSystem())
 
     camera = CameraController(authorizer)

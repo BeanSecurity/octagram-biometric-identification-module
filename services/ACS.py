@@ -31,18 +31,15 @@ class AccessControlSystem(IAccessControlSystem):
                                        f.endswith(('.jpeg', '.jpg', '.png', '.JPG')) and
                                        f.startswith(user.key_id),
                              listdir(self._path)))
-        
         if len(photos)==0:
             return None #TODO: исключения
 
-        with open(self._path + photos[0], "rb") as user_photo:
-            return user_photo
+        return self._path + photos[0]
 
     def get_unidentified_users(self) -> List[User]:
         return [User(user.strSID, Vector('')) for user in self._FlexDB.GetUsers("", False, "")]
 
 
-#
 # import string
 # from models.control_point import ControlPoint
 # from models.user import User

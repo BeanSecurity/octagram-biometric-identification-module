@@ -13,9 +13,8 @@ class Recognizer(IRecognizer):  # TODO: обращение к серверу
         }
 
         files = {
-            'pic': picture
+            'pic': open(picture, 'rb')
         }
-
         response = requests.post(self._url + "extract", headers=headers, files=files)
         # response = requests.post(self._url + "extract", headers=headers, data=picture)
         return Vector(response.text)

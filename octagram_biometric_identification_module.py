@@ -1,5 +1,5 @@
 import time
-from flask import Flask
+# from flask import Flask
 from services.ACS import *
 from services.recognizer import *
 from services.repository import *
@@ -9,11 +9,11 @@ from models.control_point import *
 from core.authorizer import *
 from controllers.camera_controllers import *
 from controllers.octagram_controllers import *
-
+import logging
 # from win32com import client
 
 
-app = Flask(__name__)
+# app = Flask(__name__)
 
 #
 # @app.route('/')
@@ -24,9 +24,13 @@ app = Flask(__name__)
 if __name__ == '__main__':  # TODO: добавить логгирование
     authorizer = Authorizer(Repository(), Recognizer(), AccessControlSystem())
 
+    logging.basicConfig(filename='myapp.log',
+                        level=logging.DEBUG,
+                        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
     camera = CameraController(authorizer)
     t = threading.Thread(target=camera.monitor_camera_forever, args=())
     t.setDaemon(True)
     t.start()
 
-    app.run()
+    # app.run()

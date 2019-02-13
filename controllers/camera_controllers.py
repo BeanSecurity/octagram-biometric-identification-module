@@ -15,14 +15,24 @@ class CameraController():
         url = 'http://admin:admin1admin@192.168.1.64/Streaming/channels/1/picture?snapShotImageType=JPEG'
         # url = "https://steamuserimages-a.akamaihd.net/ugc/871874299382774828/952AECC7D2090BED0547A6A60E7AEA65E24D6178/"
         try:
+
             while not self.__shutdown_request:
-                time_before_request = time.monotonic()
-                response = requests.get(url, stream=True)
-                img = response.raw
-                self._authorizer.authorize(img)
-                elapsed_time = time.monotonic() - time_before_request
-                if elapsed_time < minimal_request_interval:
-                    time.sleep(minimal_request_interval - elapsed_time)
+                try:
+                    time_before_request = time.monotonic()
+                    response = requests.get(url, stream=True)
+                    img = response.raw
+                    self._authorizer.authorize(img)
+                    elapsed_time = time.monotonic() - time_before_request
+                    if elapsed_time < minimal_request_interval:
+                        time.sleep(minimal_request_interval - elapsed_time)
+                except Exception as e:
+                    logger = logging.getLogger(__name__)
+                    logger.exception(e)
+
+        except Exception as e:
+            logger = logging.getLogger(__name__)
+            logger.exception(e)
+
         finally:
             self.__shutdown_request = False
             self.__is_shut_down.set()

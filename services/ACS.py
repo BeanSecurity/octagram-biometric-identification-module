@@ -23,8 +23,8 @@ class AccessControlSystem(IAccessControlSystem):
         self._FlexACS.FlexCommand(None, "S-1-0581B9AD-5CDC-4d86-A328-0D94A615A418", 10135) # TODO: брать SID двери из ControlPoint
 
     def has_access(self, door: ControlPoint, user: User) -> bool: # можно кэшировать
-        Users = self._FlexDB.GetUsers4Device("S-1-0581B9AD-5CDC-4d86-A328-0D94A615A418") # TODO: брать SID двери из ControlPoint
-        return User.key_id in [u.strSID for u in Users]
+        users = self._FlexDB.GetUsers4Device("S-1-0581B9AD-5CDC-4d86-A328-0D94A615A418") # TODO: брать SID двери из ControlPoint
+        return user.key_id in [u.strSID for u in users]
 
     def get_user_photo(self, user: User):
         photos = list(filter(lambda f: isfile(join(self._path, f)) and
@@ -37,7 +37,10 @@ class AccessControlSystem(IAccessControlSystem):
         return self._path + photos[0]
 
     def get_unidentified_users(self) -> List[User]:
-        return [User(user.strSID, Vector('')) for user in self._FlexDB.GetUsers("", False, "")]
+        return [User(user.strSID,
+                     user.strFirstName+' '+user.strLastName,
+                     Vector(''))
+                for user in self._FlexDB.GetUsers("", False, "")]
 
 
 # import string

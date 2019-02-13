@@ -23,7 +23,7 @@ class Authorizer(IAuthorizer):
             vector = recognizer.extract(pic)
             if (vector is None) or (vector.value == ''):  # проверка наличия вектора обработанного изображения
                 continue
-            repository.save_user(User(user.key_id, vector))
+            repository.save_user(User(user.key_id, user.full_name, vector))
 
     def authorize(self, image):
 

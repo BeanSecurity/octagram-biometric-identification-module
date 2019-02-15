@@ -39,7 +39,8 @@ class Authorizer(IAuthorizer):
             score = self._recognizer.compare_vectors(user.face_vector, vector)
             if score is None:
                 continue
-            elif score >= self._threshold and self._access_control_system.has_access(None, user):
+
+            if score >= self._threshold and self._access_control_system.has_access(None, user): 
                 self._access_control_system.open_door(None, user)
                 break
 

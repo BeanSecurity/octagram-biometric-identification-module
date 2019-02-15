@@ -19,28 +19,60 @@ class AccessControlSystem(IAccessControlSystem):
         self._path = "C:\\Program Files (x86)\\Octagram\\client_temp\\" #TODO: брать из конфига
 
     #TODO: проверка статуса двери
-    def open_door(self, door: ControlPoint, user: User): #TODO: добавить отправку события о том, что сотрудник зашел
-        self._FlexACS.FlexCommand(None, "S-1-0581B9AD-5CDC-4d86-A328-0D94A615A418", 10135) # TODO: брать SID двери из ControlPoint
+    def open_door(self, door: ControlPoint, user: User):
+        #TODO: добавить отправку события о том, что сотрудник зашел
+        try:
+            self._FlexACS.FlexCommand(None, "S-1-0581B9AD-5CDC-4d86-A328-0D94A615A418", 10135)
+        except Exception as e:
+            logger = logging.getLogger(__name__)
+            logger.exception(e)
+
+        # TODO: брать SID двери из ControlPoint
 
     def has_access(self, door: ControlPoint, user: User) -> bool: # можно кэшировать
-        users = self._FlexDB.GetUsers4Device("S-1-0581B9AD-5CDC-4d86-A328-0D94A615A418") # TODO: брать SID двери из ControlPoint
-        return user.key_id in [u.strSID for u in users]
+        try:
+            users = self._FlexDB.GetUsers4Device("S-1-0581B9AD-5CDC-4d86-A328-0D94A615A418")
+            # TODO: брать SID двери из ControlPoint
+        except Exception as e:
+            logger = logging.getLogger(__name__)
+            logger.exception(e)
+            return False
+
+        if not users:
+            return False
+
+        return user.key_id in (u.strSID for u in users)
 
     def get_user_photo(self, user: User):
-        photos = list(filter(lambda f: isfile(join(self._path, f)) and
+        try:
+            photos = list(filter(lambda f: isfile(join(self._path, f)) and
                                        f.endswith(('.jpeg', '.jpg', '.png', '.JPG')) and
                                        f.startswith(user.key_id),
                              listdir(self._path)))
+        except Exception as e:
+            logger = logging.getLogger(__name__)
+            logger.exception(e)
+            return None
+
         if len(photos)==0:
             return None #TODO: исключения
 
         return self._path + photos[0]
 
     def get_unidentified_users(self) -> List[User]:
-        return [User(user.strSID,
-                     user.strFirstName+' '+user.strLastName,
-                     Vector(''))
-                for user in self._FlexDB.GetUsers("", False, "")]
+        try:
+            users = [User(user.strSID,
+                          user.strFirstName+' '+user.strLastName,
+                          Vector(''))
+                     for user in self._FlexDB.GetUsers("", False, "")]
+
+        except Exception as e:
+            logger = logging.getLogger(__name__)
+            logger.exception(e)
+            return None
+
+        return users
+
 
 
 # import string

@@ -10,9 +10,9 @@ from services.service_interfaces import IRepository
 
 class Repository(IRepository):  # TODO: обращение к базе данных
     def __init__(self):
-        self._control_points = [ControlPoint('1', '1')]
-        self._cameras = [Camera('1', ControlPoint('1', '1'))]
-        self._users = [User('1', Vector('1ab123')), User('2', Vector('2ab123'))]
+        self._control_points = []
+        self._cameras = []
+        self._users = []
 
     def get_users(self) -> List[User]:
         return self._users

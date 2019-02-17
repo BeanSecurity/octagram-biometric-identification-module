@@ -2,6 +2,7 @@ import requests
 import threading
 import time
 from services.service_interfaces import IAuthorizer
+import logging
 
 
 class CameraController():

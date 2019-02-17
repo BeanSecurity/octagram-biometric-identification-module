@@ -9,7 +9,7 @@ class User():
         self._full_name = full_name
 
     def __repr__(self):
-        return "<User('%s','%s','%s')>" % (self._key_id, self._full_name, self._face_vector)
+        return "User(id: '%s', name: '%s','%s')" % (self._key_id, self._full_name, self._face_vector)
 
     @property
     def key_id(self) -> str:

@@ -22,15 +22,17 @@ import logging
 
 
 if __name__ == '__main__':  # TODO: добавить логгирование
-    authorizer = Authorizer(Repository(), Recognizer(), AccessControlSystem())
 
     logging.basicConfig(filename='application.log',
                         level=logging.DEBUG,
-                        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+                        format='%(asctime)s - %(name)s.%(funcName)s - %(levelname)s - %(message)s')
+
+    authorizer = Authorizer(Repository(), Recognizer(), AccessControlSystem())
 
     camera = CameraController(authorizer)
-    t = threading.Thread(target=camera.monitor_camera_forever, args=())
-    t.setDaemon(True)
-    t.start()
+    camera.monitor_camera_forever()
+    # t = threading.Thread(target=camera.monitor_camera_forever, args=())
+    # t.setDaemon(True)
+    # t.start()
 
     # app.run()

@@ -82,22 +82,29 @@ class AccessControlSystem(IAccessControlSystem):
 # from services.service_interfaces import IAccessControlSystem
 # import random
 # from typing import Dict, Tuple, List
-#
-#
-# class AccessControlSystem(IAccessControlSystem):
-#
-#     def __int__(self):
+
+
+# class MockAccessControlSystem(IAccessControlSystem):
+
+#     def __init__(self):
 #         pass
-#
+
 #     def open_door(self, door: ControlPoint, user: User):
 #         print("OPENED for: " + str(user))
-#
+
 #     def has_access(self, door: ControlPoint, user: User) -> bool:
-#         return False
-#
+#         return True
+
 #     def get_user_photo(self, user: User):  # TODO: забирать изображения из папки
 #         pass
-#
+
 #     def get_unidentified_users(self) -> List[User]:
 #         return [User(''.join(random.choice(string.ascii_lowercase) for i in range(10)),
+#                      ''.join(random.choice(string.ascii_lowercase) for i in range(10)),
+#                      Vector('')),
+#                 User(''.join(random.choice(string.ascii_lowercase) for i in range(10)),
+#                      ''.join(random.choice(string.ascii_lowercase) for i in range(10)),
+#                      Vector('')),
+#                 User(''.join(random.choice(string.ascii_lowercase) for i in range(10)),
+#                      ''.join(random.choice(string.ascii_lowercase) for i in range(10)),
 #                      Vector(''))]

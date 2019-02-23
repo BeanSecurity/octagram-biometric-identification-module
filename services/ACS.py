@@ -1,5 +1,4 @@
-from win32com import client
-
+import win32com.client
 from models.control_point import ControlPoint
 from models.user import User
 from models.vector import Vector

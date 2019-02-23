@@ -31,9 +31,9 @@ class TestAuthorization(unittest.TestCase):
         mock_recognizer.compare_vectors.return_value = 1
 
         mock_repository = MockRepository.return_value
-        mock_repository.get_users.return_value = [User('1', Vector('1')),
-                                                  User('2', Vector('2')),
-                                                  User('3', Vector('3'))]
+        mock_repository.get_users.return_value = [User('1', Vector('1'), ''),
+                                                  User('2', Vector('2'), ''),
+                                                  User('3', Vector('3'), '')]
         mock_repository.get_control_points.return_value = [ControlPoint('1', '1')]
         mock_repository.get_cameras.return_value = [Camera('1', ControlPoint('1', '1'))]
 
@@ -56,7 +56,7 @@ class TestAuthorization(unittest.TestCase):
         mock_recognizer.compare_vectors.return_value = 1
 
         mock_repository = MockRepository.return_value
-        mock_repository.get_users.return_value = [User('1', Vector('1'))]
+        mock_repository.get_users.return_value = [User('1', Vector('1'), '')]
         mock_repository.get_control_points.return_value = [ControlPoint('1', '1')]
         mock_repository.get_cameras.return_value = [Camera('1', ControlPoint('1', '1'))]
 
@@ -79,7 +79,7 @@ class TestAuthorization(unittest.TestCase):
         mock_recognizer.compare_vectors.return_value = 1
 
         mock_repository = MockRepository.return_value
-        mock_repository.get_users.return_value = [User('1', Vector('1'))]
+        mock_repository.get_users.return_value = [User('1', Vector('1'), '')]
         mock_repository.get_control_points.return_value = [ControlPoint('1', '1')]
         mock_repository.get_cameras.return_value = [Camera('1', ControlPoint('1', '1'))]
 
@@ -102,7 +102,7 @@ class TestAuthorization(unittest.TestCase):
         mock_recognizer.compare_vectors.return_value = 0
 
         mock_repository = MockRepository.return_value
-        mock_repository.get_users.return_value = [User('1', Vector('1'))]
+        mock_repository.get_users.return_value = [User('1', Vector('1'), '')]
         mock_repository.get_control_points.return_value = [ControlPoint('1', '1')]
         mock_repository.get_cameras.return_value = [Camera('1', ControlPoint('1', '1'))]
 
@@ -147,7 +147,7 @@ class TestAuthorization(unittest.TestCase):
         mock_recognizer.extract.return_value = Vector('1')
 
         mock_repository = MockRepository.return_value
-        mock_repository.get_users.return_value = [User('1', Vector('1'))]
+        mock_repository.get_users.return_value = [User('1', Vector('1'), '')]
         mock_repository.get_control_points.return_value = [ControlPoint('1', '1')]
         mock_repository.get_cameras.return_value = [Camera('1', ControlPoint('1', '1'))]
 
@@ -170,7 +170,7 @@ class TestAuthorization(unittest.TestCase):
         mock_recognizer.extract.return_value = Vector('1')
 
         mock_repository = MockRepository.return_value
-        mock_repository.get_users.return_value = [User('1', Vector('1'))]
+        mock_repository.get_users.return_value = [User('1', Vector('1'), '')]
         mock_repository.get_control_points.return_value = [ControlPoint('1', '1')]
         mock_repository.get_cameras.return_value = [Camera('1', ControlPoint('1', '1'))]
 
@@ -193,7 +193,7 @@ class TestAuthorization(unittest.TestCase):
         mock_recognizer.extract.return_value = Vector('1')
 
         mock_repository = MockRepository.return_value
-        mock_repository.get_users.return_value = [User('1', Vector('1'))]
+        mock_repository.get_users.return_value = [User('1', Vector('1'), '')]
         mock_repository.get_control_points.return_value = [ControlPoint('1', '1')]
         mock_repository.get_cameras.return_value = [Camera('1', ControlPoint('1', '1'))]
 
@@ -217,7 +217,7 @@ class TestAuthorization(unittest.TestCase):
         mock_recognizer.compare_vectors.return_value = 1
 
         mock_repository = MockRepository.return_value
-        mock_repository.get_users.return_value = [User('1', Vector('1'))]
+        mock_repository.get_users.return_value = [User('1', Vector('1'), '')]
         mock_repository.get_control_points.return_value = [ControlPoint('1', '1')]
         mock_repository.get_cameras.return_value = [Camera('1', ControlPoint('1', '1'))]
 
@@ -265,7 +265,7 @@ class TestAuthorization(unittest.TestCase):
         mock_recognizer.compare_vectors.return_value = None
 
         mock_repository = MockRepository.return_value
-        mock_repository.get_users.return_value = [User('1', Vector('1'))]
+        mock_repository.get_users.return_value = [User('1', Vector('1'), '')]
         mock_repository.get_control_points.return_value = [ControlPoint('1', '1')]
         mock_repository.get_cameras.return_value = [Camera('1', ControlPoint('1', '1'))]
 
@@ -288,8 +288,8 @@ class TestAuthorization(unittest.TestCase):
         mock_recognizer.compare_vectors.side_effect = [None, 1]
 
         mock_repository = MockRepository.return_value
-        mock_repository.get_users.return_value = [User('1', Vector('1')),
-                                                  User('2', Vector('2'))]
+        mock_repository.get_users.return_value = [User('1', Vector('1'), ''),
+                                                  User('2', Vector('2'), '')]
         mock_repository.get_control_points.return_value = [ControlPoint('1', '1')]
         mock_repository.get_cameras.return_value = [Camera('1', ControlPoint('1', '1'))]
 

@@ -16,7 +16,7 @@ class AccessControlSystem(IAccessControlSystem):
         token = FlexServ.AuthenticateUser("admin", "admin", False)
         self._FlexACS = FlexServ.GetObject(token, "FlexACSModule.FlexACS")
         self._FlexDB = FlexServ.GetObject(token, "FlexDB.FlexDBModule")
-        self._path = "C:\\Program Files (x86)\\Octagram\\client_temp\\" #TODO: брать из конфига
+        self._path = "D:\\Октаграм\\client_temp\\" #TODO: брать из конфига
 
     #TODO: проверка статуса двери
     def open_door(self, door: ControlPoint, user: User):

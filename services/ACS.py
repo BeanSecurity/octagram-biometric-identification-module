@@ -1,4 +1,5 @@
-import win32com.client
+from win32com import client
+import logging
 from models.control_point import ControlPoint
 from models.user import User
 from models.vector import Vector

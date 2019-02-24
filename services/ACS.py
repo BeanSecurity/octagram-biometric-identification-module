@@ -57,7 +57,8 @@ class AccessControlSystem(IAccessControlSystem):
         if len(photos)==0:
             return None #TODO: исключения
 
-        return self._path + photos[0]
+        with open(self._path + photos[0], 'rb') as pic:
+            return pic
 
     def get_unidentified_users(self) -> List[User]:
         try:

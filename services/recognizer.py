@@ -14,7 +14,7 @@ class Recognizer(IRecognizer):  # TODO: обращение к серверу
         }
 
         files = {
-            'pic': open(picture, 'rb')
+            'pic': picture
         }
 
         try:

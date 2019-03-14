@@ -8,18 +8,17 @@ from typing import Dict, Tuple, List
 
 
 class IRecognizer(metaclass=abc.ABCMeta):
-
     @abc.abstractmethod
-    def extract(self, picture) -> Vector:
+    def extract(self, picture: bytes) -> Vector:
         pass
 
     @abc.abstractmethod
-    def compare_vectors(self, user_vector: Vector, extracted_vector: Vector) -> float:
+    def compare_vectors(self, user_vector: Vector,
+                        extracted_vector: Vector) -> float:
         pass
 
 
 class IAccessControlSystem(metaclass=abc.ABCMeta):
-
     @abc.abstractmethod
     def open_door(self, door: ControlPoint, user: User):
         pass
@@ -38,7 +37,6 @@ class IAccessControlSystem(metaclass=abc.ABCMeta):
 
 
 class IRepository(metaclass=abc.ABCMeta):
-
     @abc.abstractmethod
     def get_users(self) -> List[User]:
         pass
@@ -48,15 +46,21 @@ class IRepository(metaclass=abc.ABCMeta):
         pass
 
     @abc.abstractmethod
-    def get_cameras(self) -> List[Camera]:  # TODO: разобраться с сущностями камер
+    def get_cameras(self) -> List[Camera]:
         pass
 
     @abc.abstractmethod
     def save_user(self, user: User):
         pass
 
-class IAuthorizer(metaclass=abc.ABCMeta):
 
+class IAuthorizer(metaclass=abc.ABCMeta):
     @abc.abstractmethod
-    def authorize(self, image):
+    def authorize(self, image: bytes):
+        pass
+
+
+class ICameraStream(metaclass=abc.ABCMeta):
+    @abc.abstractmethod
+    def get_frame(self) -> bytes:
         pass

@@ -2,7 +2,9 @@ import time
 # from flask import Flask
 try:
     from services.ACS import AccessControlSystem
-except:
+except Exception as e:
+    logger.exception(e)
+    logger.debug("ACS was mocked")
     from services.mocks import MockAccessControlSystem as AccessControlSystem
 from services.mocks import MockRecognizer
 from services.recognizer import *
@@ -16,7 +18,6 @@ from controllers.octagram_controllers import *
 import logging
 # from win32com import client
 
-
 # app = Flask(__name__)
 
 #
@@ -24,14 +25,19 @@ import logging
 # def hello_world():
 #     return 'Hello World!'
 
-
 if __name__ == '__main__':  # TODO: добавить логгирование
 
-    logging.basicConfig(filename='application.log',
-                        level=logging.DEBUG,
-                        format='%(asctime)s - %(name)s.%(funcName)s - %(levelname)s - %(message)s')
+    logging.basicConfig(  # filename='application.log'
+        handlers=[
+            logging.FileHandler("OBIM.log"),
+            logging.StreamHandler()
+        ],
+        level=logging.DEBUG,
+        format=
+        '%(asctime)s - %(name)s.%(funcName)s - %(levelname)s - %(message)s')
 
-    authorizer = Authorizer(Repository(), MockRecognizer(), AccessControlSystem())
+    authorizer = Authorizer(Repository(), MockRecognizer(),
+                            AccessControlSystem())
 
     camera = CameraController(authorizer, CameraStreamVLC())
     camera.monitor_camera_forever()

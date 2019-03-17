@@ -18,8 +18,8 @@ class AccessControlSystem(IAccessControlSystem):
         self._FlexDB = FlexServ.GetObject(token, "FlexDB.FlexDBModule")
         self._path = "D:\\Октаграм\\client_temp\\" #TODO: брать из конфига
         logger = logging.getLogger(__name__)
-        logger.debud("FlexACS: {}".format(str(self._FlexACS)))
-        logger.debud("FlexDB: {}".format(str(self._FlexDB)))
+        logger.debug("FlexACS: {}".format(str(self._FlexACS)))
+        logger.debug("FlexDB: {}".format(str(self._FlexDB)))
 
     #TODO: проверка статуса двери
     def open_door(self, door: ControlPoint, user: User):

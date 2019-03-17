@@ -19,7 +19,7 @@ class CameraController():
         for sensor, channel_list in self.camera.sensors.items():
             for channel in channel_list:
                 self.sensors.append(
-                    HikSensor(sensor, channel[1], self.camera, callback))
+                    HikSensor(sensor, channel[1], self.camera, self.callback))
         # self.cam = hikvision.HikCamera('http://192.168.1.64', 80, 'admin',
         #                                'admin1admin')
         # self._name = self.cam.get_name

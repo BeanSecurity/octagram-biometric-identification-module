@@ -17,12 +17,19 @@ class AccessControlSystem(IAccessControlSystem):
         self._FlexACS = FlexServ.GetObject(token, "FlexACSModule.FlexACS")
         self._FlexDB = FlexServ.GetObject(token, "FlexDB.FlexDBModule")
         self._path = "D:\\Октаграм\\client_temp\\" #TODO: брать из конфига
+        logger = logging.getLogger(__name__)
+        logger.debud("FlexACS: {}".format(str(self._FlexACS)))
+        logger.debud("FlexDB: {}".format(str(self._FlexDB)))
 
     #TODO: проверка статуса двери
     def open_door(self, door: ControlPoint, user: User):
         #TODO: добавить отправку события о том, что сотрудник зашел
         try:
-            self._FlexACS.FlexCommand(None, "S-1-0581B9AD-5CDC-4d86-A328-0D94A615A418", 10135)
+            self._FlexACS.FlexCommand(
+                None, "S-1-0581B9AD-5CDC-4d86-A328-0D94A615A418", 10135)
+            self._FlexDB.PutEvent(0, user.key_id,
+                            "S-1-0581B9AD-5CDC-4d86-A328-0D94A615A418", 344, 0,
+                            datetime.datetime.now(), '', None)
         except Exception as e:
             logger = logging.getLogger(__name__)
             logger.exception(e)

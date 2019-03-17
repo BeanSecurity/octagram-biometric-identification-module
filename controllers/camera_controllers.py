@@ -1,6 +1,6 @@
 import threading
 import time
-from services.service_interfaces import IAuthorizer
+from services.service_interfaces import IAuthorizer, ICameraStream
 import logging
 import services.hik_camera
 

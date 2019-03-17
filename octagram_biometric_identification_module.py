@@ -29,7 +29,7 @@ if __name__ == '__main__':  # TODO: добавить логгирование
 
     authorizer = Authorizer(Repository(), Recognizer(), AccessControlSystem())
 
-    camera = CameraController(authorizer, CameraStreamHTTP())
+    camera = CameraController(authorizer, CameraStreamVLC())
     camera.monitor_camera_forever()
     # t = threading.Thread(target=camera.monitor_camera_forever, args=())
     # t.setDaemon(True)

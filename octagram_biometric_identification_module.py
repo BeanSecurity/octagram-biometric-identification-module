@@ -1,6 +1,10 @@
 import time
 # from flask import Flask
-from services.ACS import *
+try:
+    from services.ACS import AccessControlSystem
+except:
+    from services.mocks import MockAccessControlSystem as AccessControlSystem
+from services.mocks import MockRecognizer
 from services.recognizer import *
 from services.repository import *
 from services.service_interfaces import *

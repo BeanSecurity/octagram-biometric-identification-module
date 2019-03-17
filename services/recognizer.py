@@ -18,7 +18,6 @@ class Recognizer(IRecognizer):  # TODO: обращение к серверу
         }
 
         try:
-            raise Exception()
             response = requests.post(self._url + "extract", headers=headers, files=files)
         except Exception as e:
             logger = logging.getLogger(__name__)

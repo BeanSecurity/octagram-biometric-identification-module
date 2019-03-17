@@ -31,7 +31,7 @@ if __name__ == '__main__':  # TODO: добавить логгирование
                         level=logging.DEBUG,
                         format='%(asctime)s - %(name)s.%(funcName)s - %(levelname)s - %(message)s')
 
-    authorizer = Authorizer(Repository(), Recognizer(), AccessControlSystem())
+    authorizer = Authorizer(Repository(), MockRecognizer(), AccessControlSystem())
 
     camera = CameraController(authorizer, CameraStreamVLC())
     camera.monitor_camera_forever()

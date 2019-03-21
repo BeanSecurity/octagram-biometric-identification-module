@@ -19,7 +19,9 @@ class AccessControlSystem(IAccessControlSystem):
         FlexServ = win32com.client.Dispatch("FlexServer.FlexServerGlobal")
         self._token = FlexServ.AuthenticateUser("admin", "admin", False)
         _FlexACS = FlexServ.GetObject(self._token, "FlexACSModule.FlexACS")
+        _FlexACS.ConnectAll(None, 0)
         _FlexDB = FlexServ.GetObject(self._token, "FlexDB.FlexDBModule")
+
         self._path = "D:\\Октаграм\\client_temp\\" #TODO: брать из конфига
         self._FlexServ_id = pythoncom.CoMarshalInterThreadInterfaceInStream(pythoncom.IID_IDispatch, FlexServ)
         logger = logging.getLogger(__name__)

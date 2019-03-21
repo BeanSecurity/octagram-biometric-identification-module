@@ -62,8 +62,8 @@ class CameraController():
 class CameraStreamHTTP(ICameraStream):
     def __init__(self):
         import requests
-        # self._url = 'http://admin:admin1admin@192.168.1.64/Streaming/channels/1/picture?snapShotImageType=JPEG'
-        self._url = "https://24smi.org/public/media/celebrity/2017/02/14/VTbS2hRAEwfe_vladimir-putin.jpg"
+        self._url = 'http://admin:admin1admin@192.168.1.64/Streaming/channels/1/picture?snapShotImageType=JPEG'
+        # self._url = "https://24smi.org/public/media/celebrity/2017/02/14/VTbS2hRAEwfe_vladimir-putin.jpg"
 
     def get_frame(self):
         response = requests.get(self._url, stream=True)

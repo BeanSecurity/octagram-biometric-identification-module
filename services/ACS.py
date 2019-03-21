@@ -31,8 +31,8 @@ class AccessControlSystem(IAccessControlSystem):
         if self._FlexServ is None:
             pythoncom.CoInitialize()
             self._FlexServ  = win32com.client.Dispatch(pythoncom.CoGetInterfaceAndReleaseStream(self._FlexServ_id, pythoncom.IID_IDispatch))
-            self._FlexACS = _FlexServ.GetObject(self._token, "FlexACSModule.FlexACS")
-            self._FlexDB = _FlexServ.GetObject(self._token, "FlexDB.FlexDBModule")
+            self._FlexACS = FlexServ.GetObject(self._token, "FlexACSModule.FlexACS")
+            self._FlexDB = FlexServ.GetObject(self._token, "FlexDB.FlexDBModule")
         return self._FlexACS, self._FlexDB
 
     #TODO: проверка статуса двери

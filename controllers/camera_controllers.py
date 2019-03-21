@@ -45,7 +45,7 @@ class CameraController():
         try:
             while True:
                 try:
-                    self._loop_thread_active.wait():
+                    self._loop_thread_active.wait()
                     img = self._camera_stream.get_frame()
                     self._authorizer.authorize(img)
                 except Exception as e:

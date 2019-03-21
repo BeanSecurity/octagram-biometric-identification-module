@@ -40,7 +40,7 @@ if __name__ == '__main__':  # TODO: добавить логгирование
                             AccessControlSystem())
 
     camera = CameraController(authorizer, CameraStreamVLC())
-    camera.monitor_camera_forever()
+    # camera._monitor_camera_forever()
     # t = threading.Thread(target=camera.monitor_camera_forever, args=())
     # t.setDaemon(True)
     # t.start()

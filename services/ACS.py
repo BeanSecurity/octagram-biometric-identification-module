@@ -15,6 +15,7 @@ class AccessControlSystem(IAccessControlSystem):
 
     def __init__(self):
         pythoncom.CoInitialize()
+        self._FlexServ = None
         FlexServ = win32com.client.Dispatch("FlexServer.FlexServerGlobal")
         self._token = FlexServ.AuthenticateUser("admin", "admin", False)
         _FlexACS = FlexServ.GetObject(self._token, "FlexACSModule.FlexACS")

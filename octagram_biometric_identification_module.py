@@ -3,8 +3,8 @@ import time
 try:
     from services.ACS import AccessControlSystem
 except Exception as e:
-    logger.exception(e)
-    logger.debug("ACS was mocked")
+    # logger.exception(e)
+    # logger.debug("ACS was mocked")
     from services.mocks import MockAccessControlSystem as AccessControlSystem
 from services.mocks import MockRecognizer
 from services.recognizer import *

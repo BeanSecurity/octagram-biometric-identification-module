@@ -7,19 +7,19 @@ from services.hik_camera import HikCamObject, HikSensor
 
 class CameraController():
     def __init__(self, authorizer: IAuthorizer, camera_stream: ICameraStream):
-        self.__is_shut_down = threading.Event()
         self._authorizer = authorizer
         self._camera_stream = camera_stream
 
-        self.camera = HikCamObject('http://192.168.1.64', 80, 'admin',
-                                   'admin1admin')
+        self._loop_thread_active = threading.Event()
+        self._monitor_thread = threading.Thread(target=self._monitor_camera_forever)
+        self._monitor_thread.start()
 
+        self.camera = HikCamObject('http://192.168.1.64', 80, 'admin', 'admin1admin')
         self.sensors = []
-
         for sensor, channel_list in self.camera.sensors.items():
             for channel in channel_list:
                 self.sensors.append(
-                    HikSensor(sensor, channel[1], self.camera, self.callback))
+                    HikSensor(sensor, channel[1], self.camera, self._callback))
         # self.cam = hikvision.HikCamera('http://192.168.1.64', 80, 'admin',
         #                                'admin1admin')
         # self._name = self.cam.get_name
@@ -34,20 +34,18 @@ class CameraController():
         # print('{}'.format(self._event_states))
         # print('Motion Dectect State: {}'.format(self.motion))
 
-    def callback(self, message):
-        if self.sensors[0].is_on():
-            self.monitor_thread = threading.Thread(
-                target=self.monitor_camera_forever, args=(monitoring_enabled))
-            self.__is_shut_down.clear()
-            self.monitor_thread.start()
+    def _callback(self, message):
+        if self.sensors[0].is_on:
+            self._loop_thread_active.set()
         else:
-            self.__is_shut_down.set()
-            self.monitor_thread.join()
+            self._loop_thread_active.clear()
 
-    def monitor_camera_forever(self):
+
+    def _monitor_camera_forever(self):
         try:
-            while not self.__is_shut_down.is_set():
+            while True:
                 try:
+                    self._loop_thread_active.wait():
                     img = self._camera_stream.get_frame()
                     self._authorizer.authorize(img)
                 except Exception as e:
@@ -59,12 +57,7 @@ class CameraController():
             logger.exception(e)
 
         finally:
-            self.__is_shut_down.set()
-
-    def shutdown(self):
-        self.__is_shut_down.set()
-        self.monitor_thread.join()
-
+            self._loop_thread_active.clear()
 
 class CameraStreamHTTP(ICameraStream):
     def __init__(self):

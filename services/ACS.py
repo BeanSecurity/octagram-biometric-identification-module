@@ -14,6 +14,7 @@ import pythoncom
 class AccessControlSystem(IAccessControlSystem):
 
     def __init__(self):
+        pythoncom.CoInitialize()
         FlexServ = win32com.client.Dispatch("FlexServer.FlexServerGlobal")
         self._token = FlexServ.AuthenticateUser("admin", "admin", False)
         _FlexACS = FlexServ.GetObject(token, "FlexACSModule.FlexACS")
@@ -38,9 +39,9 @@ class AccessControlSystem(IAccessControlSystem):
         FlexACS, FlexDB = self._get_ACS_and_DB()
         try:
             FlexACS.FlexCommand(
-                None, "S-1-0581B9AD-5CDC-4d86-A328-0D94A615A418", 10135)
+                None, "S-1-0581B9AD-5CDC-4d86-A328-0D94A615A418", 10133)
             # FlexDB.PutEvent(0, user.key_id,
-            #                 "S-1-0581B9AD-5CDC-4d86-A328-0D94A615A418", 344, 0,
+            #                 "S-1-0581B9AD-5CDC-4d86-A328-0D94A615A418", 289, 0,
             #                 datetime.datetime.now(), '', None)
         except Exception as e:
             logger = logging.getLogger(__name__)

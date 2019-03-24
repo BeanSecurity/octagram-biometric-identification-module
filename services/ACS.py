@@ -8,54 +8,35 @@ from typing import Dict, Tuple, List
 from os import listdir
 from os.path import isfile, join
 import datetime
-import pythoncom
 
 
 class AccessControlSystem(IAccessControlSystem):
 
     def __init__(self):
-        pythoncom.CoInitialize()
-        self._FlexServ = None
         FlexServ = win32com.client.Dispatch("FlexServer.FlexServerGlobal")
-        self._token = FlexServ.AuthenticateUser("admin", "admin", False)
-        _FlexACS = FlexServ.GetObject(self._token, "FlexACSModule.FlexACS")
-        _FlexACS.ConnectAll(None, 0)
-        _FlexDB = FlexServ.GetObject(self._token, "FlexDB.FlexDBModule")
-
+        token = FlexServ.AuthenticateUser("admin", "admin", False)
+        self._FlexACS = FlexServ.GetObject(token, "FlexACSModule.FlexACS")
+        self._FlexACS.ConnectAll(None, 0)
+        self._FlexDB = FlexServ.GetObject(token, "FlexDB.FlexDBModule")
         self._path = "D:\\Октаграм\\client_temp\\" #TODO: брать из конфига
-        self._FlexServ_id = pythoncom.CoMarshalInterThreadInterfaceInStream(pythoncom.IID_IDispatch, FlexServ)
         logger = logging.getLogger(__name__)
-        logger.debug("FlexACS: {}".format(str(_FlexACS)))
-        logger.debug("FlexDB: {}".format(str(_FlexDB)))
+        logger.debug("FlexACS: {}".format(str(self._FlexACS)))
+        logger.debug("FlexDB: {}".format(str(self._FlexDB)))
 
-
-    def _get_ACS_and_DB(self):
-        if self._FlexServ is None:
-            pythoncom.CoInitialize()
-            self._FlexServ  = win32com.client.Dispatch(pythoncom.CoGetInterfaceAndReleaseStream(self._FlexServ_id, pythoncom.IID_IDispatch))
-            self._FlexACS = self._FlexServ.GetObject(self._token, "FlexACSModule.FlexACS")
-            self._FlexDB = self._FlexServ.GetObject(self._token, "FlexDB.FlexDBModule")
-        return self._FlexACS, self._FlexDB
-
-    #TODO: проверка статуса двери
     def open_door(self, door: ControlPoint, user: User):
-        FlexACS, FlexDB = self._get_ACS_and_DB()
         try:
-            FlexACS.FlexCommand(
+            self._FlexACS.FlexCommand(
                 None, "S-1-0581B9AD-5CDC-4d86-A328-0D94A615A418", 10133)
-            # FlexDB.PutEvent(0, user.key_id,
+            # self._FlexDB.PutEvent(0, user.key_id,
             #                 "S-1-0581B9AD-5CDC-4d86-A328-0D94A615A418", 289, 0,
             #                 datetime.datetime.now(), '', None)
         except Exception as e:
             logger = logging.getLogger(__name__)
             logger.exception(e)
 
-        # TODO: брать SID двери из ControlPoint
-
     def has_access(self, door: ControlPoint, user: User) -> bool: # можно кэшировать
-        FlexACS, FlexDB = self._get_ACS_and_DB()
         try:
-            users = FlexDB.GetUsers4Device("S-1-0581B9AD-5CDC-4d86-A328-0D94A615A418")
+            users = self._FlexDB.GetUsers4Device("S-1-0581B9AD-5CDC-4d86-A328-0D94A615A418")
             # TODO: брать SID двери из ControlPoint
         except Exception as e:
             logger = logging.getLogger(__name__)
@@ -85,12 +66,11 @@ class AccessControlSystem(IAccessControlSystem):
             return pic
 
     def get_unidentified_users(self) -> List[User]:
-        FlexACS, FlexDB = self._get_ACS_and_DB()
         try:
             users = [User(user.strSID,
                           user.strFirstName+' '+user.strLastName,
                           Vector(''))
-                     for user in FlexDB.GetUsers("", False, "")]
+                     for user in self._FlexDB.GetUsers("", False, "")]
 
         except Exception as e:
             logger = logging.getLogger(__name__)
@@ -98,4 +78,3 @@ class AccessControlSystem(IAccessControlSystem):
             return None
 
         return users
-

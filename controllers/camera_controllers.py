@@ -30,7 +30,7 @@ class CameraController():
         # print('{}'.format(self._event_states))
         # print('Motion Dectect State: {}'.format(self.motion))
 
-    def _sensors_polling():
+    def _sensors_polling(self):
         self.camera = HikCamObject('http://192.168.1.64', 80, 'admin', 'admin1admin')
         self.sensors = []
         for sensor, channel_list in self.camera.sensors.items():

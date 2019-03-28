@@ -1,11 +1,13 @@
 import time
 # from flask import Flask
-try:
-    from services.ACS import AccessControlSystem
-except Exception as e:
-    # logger.exception(e)
-    # logger.debug("ACS was mocked")
-    from services.mocks import MockAccessControlSystem as AccessControlSystem
+# try:
+#     from services.ACS import AccessControlSystem
+# except Exception as e:
+#     # logger.exception(e)
+#     # logger.debug("ACS was mocked")
+#     from services.mocks import MockAccessControlSystem as AccessControlSystem
+from services.ACS import AccessControlSystem
+from services.mocks import MockAccessControlSystem
 from services.mocks import MockRecognizer
 from services.recognizer import *
 from services.repository import *
@@ -36,11 +38,11 @@ if __name__ == '__main__':  # TODO: добавить логгирование
         format=
         '%(asctime)s - %(name)s.%(funcName)s - %(levelname)s - %(message)s')
 
-    authorizer = Authorizer(Repository(), MockRecognizer(),
-                            AccessControlSystem())
+    authorizer = Authorizer(Repository(), Recognizer(),
+                            MockAccessControlSystem())
 
-    camera = CameraController(authorizer, CameraStreamVLC())
-    # camera._monitor_camera_forever()
+    # camera = CameraController(authorizer, CameraStreamVLC())
+    camera._monitor_camera_forever()
     # t = threading.Thread(target=camera.monitor_camera_forever, args=())
     # t.setDaemon(True)
     # t.start()

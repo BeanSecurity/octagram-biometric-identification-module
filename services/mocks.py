@@ -17,9 +17,12 @@ class MockAccessControlSystem(IAccessControlSystem):
     def has_access(self, door: ControlPoint, user: User) -> bool:
         return True
 
-    def get_user_photo(self,
-                       user: User):  # TODO: забирать изображения из папки
-        pass
+    def get_user_photo(self, user: User):
+        photos = list(filter(lambda f: isfile(join(_path, f)) and
+                             f.endswith(('.jpeg', '.jpg', '.png', '.JPG')),
+                             listdir(_path)))
+        with open(_path + photos[2], 'rb') as pic:
+            picture = pic.read()
 
     def get_unidentified_users(self) -> List[User]:
         return [

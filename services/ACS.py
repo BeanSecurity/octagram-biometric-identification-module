@@ -63,7 +63,7 @@ class AccessControlSystem(IAccessControlSystem):
             return None #TODO: исключения
 
         with open(self._path + photos[0], 'rb') as pic:
-            return pic
+            return pic.read()
 
     def get_unidentified_users(self) -> List[User]:
         try:

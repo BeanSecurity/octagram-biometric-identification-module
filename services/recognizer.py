@@ -9,16 +9,19 @@ class Recognizer(IRecognizer):  # TODO: обращение к серверу
         self._url = "http://46.39.253.178:49090/v1/prefix/pattern/"  # TODO: брать из конфига
 
     def extract(self, picture) -> Vector:
-        headers = {
-            'Content-Type': "image/jpeg",
-        }
-
-        files = {
-            'pic': picture
-        }
-
         try:
-            response = requests.post(self._url + "extract", headers=headers, files=files)
+            headers = {
+                'Content-Type': "image/jpeg",
+                'Content-Length': str(len(picture)),
+            }
+            req = requests.Request('POST', self._url + "extract", headers=headers)
+            prep = req.prepare()
+            prep.body = picture
+            s = requests.Session()
+            response = s.send(prep)
+            logger = logging.getLogger(__name__)
+            logger.debug(response.text)
+
         except Exception as e:
             logger = logging.getLogger(__name__)
             logger.exception(e)

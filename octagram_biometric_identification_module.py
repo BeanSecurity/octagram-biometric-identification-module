@@ -9,6 +9,7 @@ import time
 from services.ACS import AccessControlSystem
 from services.mocks import MockAccessControlSystem
 from services.mocks import MockRecognizer
+from services.mocks import MockCameraController
 from services.recognizer import *
 from services.repository import *
 from services.service_interfaces import *
@@ -41,8 +42,7 @@ if __name__ == '__main__':  # TODO: добавить логгирование
     authorizer = Authorizer(Repository(), Recognizer(),
                             MockAccessControlSystem())
 
-    # camera = CameraController(authorizer, CameraStreamVLC())
-    camera._monitor_camera_forever()
+    camera = MockCameraController(authorizer, CameraStreamVLC())
     # t = threading.Thread(target=camera.monitor_camera_forever, args=())
     # t.setDaemon(True)
     # t.start()

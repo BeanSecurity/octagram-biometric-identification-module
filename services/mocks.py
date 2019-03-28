@@ -64,3 +64,19 @@ class MockRecognizer(IRecognizer):  # TODO: обращение к серверу
     def compare_vectors(self, user_vector: Vector,
                         extracted_vector: Vector) -> float:
         return 0.9
+
+
+import time
+
+class MockCameraController():
+    def __init__(self, authorizer, camera_stream):
+        _authorizer = authorizer
+        _path = "D:\\Октаграм\\client_temp\\"
+        photos = list(filter(lambda f: isfile(join(_path, f)) and
+                             f.endswith(('.jpeg', '.jpg', '.png', '.JPG')),
+                             listdir(_path)))
+        with open(_path + photos[0], 'rb') as pic:
+            picture = pic.read()
+        while True:
+            _authorizer.authorize(picture)
+            time.sleep(1)

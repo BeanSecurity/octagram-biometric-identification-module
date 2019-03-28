@@ -20,6 +20,7 @@ class MockAccessControlSystem(IAccessControlSystem):
         return True
 
     def get_user_photo(self, user: User):
+        _path = "D:\\Октаграм\\client_temp\\"
         photos = list(filter(lambda f: isfile(join(_path, f)) and
                              f.endswith(('.jpeg', '.jpg', '.png', '.JPG')),
                              listdir(_path)))

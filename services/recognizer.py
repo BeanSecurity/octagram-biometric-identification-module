@@ -30,7 +30,7 @@ class Recognizer(IRecognizer):  # TODO: обращение к серверу
             logger.debug(response.text)
             return None
 
-        return Vector(response.raw)
+        return Vector(response.content)
 
     def compare_vectors(self, user_vector: Vector, extracted_vector: Vector) -> float:
         try:

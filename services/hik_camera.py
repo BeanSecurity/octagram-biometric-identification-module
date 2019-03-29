@@ -15,10 +15,10 @@ class HikCamObject(object):
         self._id = self.cam.get_id
 
         logger = logging.getLogger(__name__)
-        logger.debug('NAME: {}'.format(self._name))
-        logger.debug('ID: {}'.format(self._id))
-        logger.debug('{}'.format(self._event_states))
-        logger.debug('Motion Dectect State: {}'.format(self.motion))
+        logger.info('NAME: {}'.format(self._name))
+        logger.info('ID: {}'.format(self._id))
+        logger.info('{}'.format(self._event_states))
+        logger.info('Motion Dectect State: {}'.format(self.motion))
 
     @property
     def sensors(self):

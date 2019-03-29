@@ -20,33 +20,35 @@ class Recognizer(IRecognizer):  # TODO: обращение к серверу
             s = requests.Session()
             response = s.send(prep)
 
+            if response.status_code != 200:
+                if response.json()['code'] not in ['BPE-003002']:
+                    logger = logging.getLogger(__name__)
+                    logger.exception(response.text)
+                return None
+
+            return Vector(response.content)
+
         except Exception as e:
             logger = logging.getLogger(__name__)
             logger.exception(e)
             return None
 
-        if response.status_code != 200:
-            logger = logging.getLogger(__name__)
-            logger.debug(response.text)
-            return None
-
-        return Vector(response.content)
 
     def compare_vectors(self, user_vector: Vector, extracted_vector: Vector) -> float:
         try:
             response = requests.post(self._url + "compare",
                                      files=dict(bio_template=user_vector.value,
                                                 bio_feature=extracted_vector.value))
+            if response.status_code != 200:
+                logger = logging.getLogger(__name__)
+                logger.exception(response.text)
+                return None
+            return response.json()['score']
+
         except Exception as e:
             logger = logging.getLogger(__name__)
             logger.exception(e)
             return None
 
-        if response.status_code != 200:
-            logger = logging.getLogger(__name__)
-            logger.debug(response.text)
-            return None
-
-        return response.json()['score']
 
 

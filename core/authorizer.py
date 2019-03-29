@@ -15,7 +15,7 @@ class Authorizer(IAuthorizer):
         users = access_control_system.get_unidentified_users()
 
         logger = logging.getLogger(__name__)
-        logger.debug('Unidentified users: ' + str(users))
+        logger.info('Unidentified users: ' + str(users))
 
         if users is None:
             return
@@ -38,7 +38,7 @@ class Authorizer(IAuthorizer):
                 continue
 
             repository.save_user(User(user.key_id, user.full_name, vector))
-            logger.debug('Save user: ' + str(user))
+            logger.info('Save user: ' + str(user))
 
     def authorize(self, image):
 
@@ -47,7 +47,7 @@ class Authorizer(IAuthorizer):
             return
 
         logger = logging.getLogger(__name__)
-        logger.debug('Face detected')
+        logger.info('Face detected')
 
         users = self._repository.get_users()
         if users is None:
@@ -65,7 +65,7 @@ class Authorizer(IAuthorizer):
                     None, user):
                 self._access_control_system.open_door(None, user)
                 logger = logging.getLogger(__name__)
-                logger.debug('Door opened for: {} with score - {}'.format(
+                logger.info('Door opened for: {} with score - {}'.format(
                     user, score))
                 break
 

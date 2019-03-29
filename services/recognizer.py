@@ -32,13 +32,13 @@ class Recognizer(IRecognizer):  # TODO: обращение к серверу
             logger.debug(response.text)
             return None
 
-        return Vector(response.text)
+        return Vector(response.raw)
 
     def compare_vectors(self, user_vector: Vector, extracted_vector: Vector) -> float:
         try:
             response = requests.post(self._url + "compare",
-                                     files=dict(bio_template=user_vector,
-                                                bio_feature=extracted_vector))
+                                     files=dict(bio_template=user_vector.value,
+                                                bio_feature=extracted_vector.value))
         except Exception as e:
             logger = logging.getLogger(__name__)
             logger.exception(e)
@@ -49,6 +49,6 @@ class Recognizer(IRecognizer):  # TODO: обращение к серверу
             logger.debug(response.text)
             return None
 
-        return response.text
+        return response.json()['score']
 
 

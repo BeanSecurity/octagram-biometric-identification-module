@@ -40,9 +40,9 @@ if __name__ == '__main__':  # TODO: добавить логгирование
         '%(asctime)s - %(name)s.%(funcName)s - %(levelname)s - %(message)s')
 
     authorizer = Authorizer(Repository(), Recognizer(),
-                            MockAccessControlSystem())
+                            AccessControlSystem())
 
-    camera = MockCameraController(authorizer, CameraStreamVLC())
+    camera = CameraController(authorizer, CameraStreamVLC())
     # t = threading.Thread(target=camera.monitor_camera_forever, args=())
     # t.setDaemon(True)
     # t.start()

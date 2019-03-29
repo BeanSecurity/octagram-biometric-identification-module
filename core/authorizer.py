@@ -47,7 +47,7 @@ class Authorizer(IAuthorizer):
             return
 
         logger = logging.getLogger(__name__)
-        logger.debug('Face detected: ' + str(vector))
+        logger.debug('Face detected')
 
         users = self._repository.get_users()
         if users is None:
@@ -57,6 +57,9 @@ class Authorizer(IAuthorizer):
             score = self._recognizer.compare_vectors(user.face_vector, vector)
             if score is None:
                 continue
+
+            logger = logging.getLogger(__name__)
+            logger.debug('User('+str(user)') check with score: '+str(score))
 
             if score >= self._threshold and self._access_control_system.has_access(
                     None, user):

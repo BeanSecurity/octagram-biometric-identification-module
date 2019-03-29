@@ -19,8 +19,6 @@ class Recognizer(IRecognizer):  # TODO: обращение к серверу
             prep.body = picture
             s = requests.Session()
             response = s.send(prep)
-            logger = logging.getLogger(__name__)
-            logger.debug(response.text)
 
         except Exception as e:
             logger = logging.getLogger(__name__)

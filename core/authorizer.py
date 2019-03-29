@@ -59,7 +59,7 @@ class Authorizer(IAuthorizer):
                 continue
 
             logger = logging.getLogger(__name__)
-            logger.debug('User('+str(user)') check with score: '+str(score))
+            logger.debug('User('+str(user)+') check with score: '+str(score))
 
             if score >= self._threshold and self._access_control_system.has_access(
                     None, user):

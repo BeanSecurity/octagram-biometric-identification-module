@@ -26,6 +26,7 @@ class MockAccessControlSystem(IAccessControlSystem):
                              listdir(_path)))
         with open(_path + photos[2], 'rb') as pic:
             picture = pic.read()
+        return picture
 
     def get_unidentified_users(self) -> List[User]:
         return [

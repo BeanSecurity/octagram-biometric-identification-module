@@ -31,6 +31,8 @@ class AccessControlSystem(IAccessControlSystem):
             self._FlexACS.FlexCommand(
                 None, "S-1-0581B9AD-5CDC-4d86-A328-0D94A615A418", 10133)
             logger = logging.getLogger(__name__)
+            logger.debug(self._last_time_accessed)
+            logger.debug(datetime.datetime.now())
             logger.debug(self._last_time_accessed - datetime.datetime.now())
             logger.debug((self._last_time_accessed - datetime.datetime.now()) > datetime.timedelta(seconds=5))
             logger.debug(self._last_user_accessed.key_id)

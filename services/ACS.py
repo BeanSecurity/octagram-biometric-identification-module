@@ -33,11 +33,11 @@ class AccessControlSystem(IAccessControlSystem):
             logger = logging.getLogger(__name__)
             logger.debug(self._last_time_accessed)
             logger.debug(datetime.datetime.now())
-            logger.debug(self._last_time_accessed - datetime.datetime.now())
-            logger.debug((self._last_time_accessed - datetime.datetime.now()) > datetime.timedelta(seconds=5))
+            logger.debug(datetime.datetime.now() - self._last_time_accessed)
+            logger.debug((datetime.datetime.now() - self._last_time_accessed) > datetime.timedelta(seconds=5))
             logger.debug(self._last_user_accessed.key_id)
             logger.debug(self._last_user_accessed.key_id != user.key_id)
-            if ((self._last_time_accessed - datetime.datetime.now()) > datetime.timedelta(seconds=5)) or (self._last_user_accessed.key_id != user.key_id):
+            if ((datetime.datetime.now() - self._last_time_accessed) > datetime.timedelta(seconds=5)) or (self._last_user_accessed.key_id != user.key_id):
                 logger.info("Event put for user: " + user.full_name)
                 self._FlexDB.PutEvent(0, user.key_id,
                                       "S-1-0581B9AD-5CDC-4d86-A328-0D94A615A418", 289, 0,

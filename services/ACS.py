@@ -19,6 +19,8 @@ class AccessControlSystem(IAccessControlSystem):
         self._FlexACS.ConnectAll(None, 0)
         self._FlexDB = FlexServ.GetObject(token, "FlexDB.FlexDBModule")
         self._path = "D:\\Октаграм\\client_temp\\" #TODO: брать из конфига
+        self._last_time_accessed = datetime.datetime.now() - datetime.timedelta(seconds=6)
+        self._last_user_accessed = User('','', Vector(''))
         logger = logging.getLogger(__name__)
         logger.debug("FlexACS: {}".format(str(self._FlexACS)))
         logger.debug("FlexDB: {}".format(str(self._FlexDB)))
@@ -27,9 +29,12 @@ class AccessControlSystem(IAccessControlSystem):
         try:
             self._FlexACS.FlexCommand(
                 None, "S-1-0581B9AD-5CDC-4d86-A328-0D94A615A418", 10133)
-            # self._FlexDB.PutEvent(0, user.key_id,
-            #                 "S-1-0581B9AD-5CDC-4d86-A328-0D94A615A418", 289, 0,
-            #                 datetime.datetime.now()+datetime.timedelta(seconds=-time.timezone), '', None)
+            if ((self._last_time_accessed - datetime.datetime.now()) > datetime.timedelta(seconds=5)) or (self._last_user_accessed.key_id != user.key_id):
+                self._FlexDB.PutEvent(0, user.key_id,
+                                      "S-1-0581B9AD-5CDC-4d86-A328-0D94A615A418", 289, 0,
+                                      datetime.datetime.now()+datetime.timedelta(seconds=-time.timezone), '', None)
+                self._last_user_accessed = user
+            self._last_time_accessed = datetime.datetime.now()
         except Exception as e:
             logger = logging.getLogger(__name__)
             logger.exception(e)

@@ -30,7 +30,13 @@ class AccessControlSystem(IAccessControlSystem):
         try:
             self._FlexACS.FlexCommand(
                 None, "S-1-0581B9AD-5CDC-4d86-A328-0D94A615A418", 10133)
+            logger = logging.getLogger(__name__)
+            logger.debug(self._last_time_accessed - datetime.datetime.now())
+            logger.debug((self._last_time_accessed - datetime.datetime.now()) > datetime.timedelta(seconds=5))
+            logger.debug(self._last_user_accessed.key_id)
+            logger.debug(self._last_user_accessed.key_id != user.key_id)
             if ((self._last_time_accessed - datetime.datetime.now()) > datetime.timedelta(seconds=5)) or (self._last_user_accessed.key_id != user.key_id):
+                logger.info("Event put for user: " + user.full_name)
                 self._FlexDB.PutEvent(0, user.key_id,
                                       "S-1-0581B9AD-5CDC-4d86-A328-0D94A615A418", 289, 0,
                                       datetime.datetime.now()+datetime.timedelta(seconds=-time.timezone), '', None)

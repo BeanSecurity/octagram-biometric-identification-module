@@ -10,6 +10,8 @@ class Recognizer(IRecognizer):  # TODO: обращение к серверу
 
     def extract(self, picture) -> Vector:
         try:
+            if picture is None:
+                return None
             headers = {
                 'Content-Type': "image/jpeg",
                 'Content-Length': str(len(picture)),

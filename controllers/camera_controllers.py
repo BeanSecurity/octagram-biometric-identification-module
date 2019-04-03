@@ -85,6 +85,11 @@ class CameraStreamCV2(ICameraStream):
             "rtsp://admin:admin1admin@192.168.1.64:554/Streaming/channels/1")
 
     def get_frame(self):
+        import cv2
+        import io
+        import numpy as np
+        import matplotlib.pyplot as plt
+
         success, pic = self._video_capture.read()
         if success:
             buf = io.BytesIO()
@@ -104,5 +109,17 @@ class CameraStreamVLC(ICameraStream):
     def get_frame(self):
         self._player.video_take_snapshot(0, 'snapshot_camera.tmp.png', 720,
                                          1280)
+        with open('snapshot_camera.tmp.png', 'rb') as pic:
+            return pic.read()
+
+class CameraStreamVLC2(ICameraStream):
+    def __init__(self):
+        import vlc
+        self._player = vlc.Instance("--vout=dummy --network-caching=200 --sout-mux-caching=<>").media_player_new()
+        self._player.set_mrl('rtsp://admin:admin1admin@192.168.1.64:554/Streaming/channels/1')
+        self._player.play()
+
+    def get_frame(self):
+        self._player.video_take_snapshot(0, 'snapshot_camera.tmp.png', 720, 1280)
         with open('snapshot_camera.tmp.png', 'rb') as pic:
             return pic.read()

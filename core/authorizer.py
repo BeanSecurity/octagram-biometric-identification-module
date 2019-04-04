@@ -30,11 +30,12 @@ class Authorizer(IAuthorizer):
             if pic is None:
                 continue
 
-            logger.debug('Extracting user photo: ' + str(user))
+            logger.info('Extracting user photo: ' + str(user))
             vector = recognizer.extract(pic)
 
             # проверка наличия вектора обработанного изображения
             if (vector is None) or (vector.value == ''):
+                logger.info('Face on photo not found for user: ' + str(user))
                 continue
 
             repository.save_user(User(user.key_id, user.full_name, vector))

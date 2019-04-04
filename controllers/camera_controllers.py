@@ -69,9 +69,10 @@ class CameraStreamHTTP(ICameraStream):
         # self._url = "https://24smi.org/public/media/celebrity/2017/02/14/VTbS2hRAEwfe_vladimir-putin.jpg"
 
     def get_frame(self):
+        import requests
         response = requests.get(self._url, stream=True)
         img = response.content
-        return pic
+        return img
 
 
 class CameraStreamCV2(ICameraStream):

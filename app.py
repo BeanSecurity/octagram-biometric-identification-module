@@ -1,11 +1,4 @@
 import time
-# from flask import Flask
-# try:
-#     from services.ACS import AccessControlSystem
-# except Exception as e:
-#     # logger.exception(e)
-#     # logger.debug("ACS was mocked")
-#     from services.mocks import MockAccessControlSystem as AccessControlSystem
 from services.ACS import AccessControlSystem
 from services.mocks import MockAccessControlSystem
 from services.mocks import MockRecognizer
@@ -22,11 +15,11 @@ import logging
 # from win32com import client
 
 
-if __name__ == '__main__':  # TODO: добавить логгирование
+if __name__ == '__main__':
 
     logging.basicConfig(
         handlers=[
-            logging.FileHandler("OBIM.log"),
+            logging.FileHandler("app_logs.log"),
             logging.StreamHandler()
         ],
         level=logging.DEBUG,

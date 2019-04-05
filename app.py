@@ -21,7 +21,7 @@ if __name__ == '__main__':
             logging.FileHandler("app_logs.log"),
             logging.StreamHandler()
         ],
-        level=logging.DEBUG,
+        level=logging.INFO,
         format=
         '%(asctime)s - %(name)s.%(funcName)s - %(levelname)s - %(message)s')
 

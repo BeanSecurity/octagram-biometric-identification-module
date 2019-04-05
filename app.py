@@ -21,16 +21,10 @@ from controllers.octagram_controllers import *
 import logging
 # from win32com import client
 
-# app = Flask(__name__)
-
-#
-# @app.route('/')
-# def hello_world():
-#     return 'Hello World!'
 
 if __name__ == '__main__':  # TODO: добавить логгирование
 
-    logging.basicConfig(  # filename='application.log'
+    logging.basicConfig(
         handlers=[
             logging.FileHandler("OBIM.log"),
             logging.StreamHandler()
@@ -47,4 +41,3 @@ if __name__ == '__main__':  # TODO: добавить логгирование
     # t.setDaemon(True)
     # t.start()
 
-    # app.run()

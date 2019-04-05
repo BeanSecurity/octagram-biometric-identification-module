@@ -12,7 +12,6 @@ from core.authorizer import *
 from controllers.camera_controllers import *
 from controllers.octagram_controllers import *
 import logging
-# from win32com import client
 
 
 if __name__ == '__main__':
@@ -30,7 +29,3 @@ if __name__ == '__main__':
                             AccessControlSystem())
 
     camera = CameraController(authorizer, CameraStreamHTTP())
-    # t = threading.Thread(target=camera.monitor_camera_forever, args=())
-    # t.setDaemon(True)
-    # t.start()
-

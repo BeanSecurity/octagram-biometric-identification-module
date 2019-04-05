@@ -16,20 +16,6 @@ class CameraController():
 
         self._monitor_camera_forever()
 
-        # self.cam = hikvision.HikCamera('http://192.168.1.64', 80, 'admin',
-        #                                'admin1admin')
-        # self._name = self.cam.get_name
-        # self.motion = self.cam.current_motion_detection_state
-        # self.cam.start_stream()
-
-        # self._event_states = self.cam.current_event_states
-        # self._id = self.cam.get_id
-
-        # print('NAME: {}'.format(self._name))
-        # print('ID: {}'.format(self._id))
-        # print('{}'.format(self._event_states))
-        # print('Motion Dectect State: {}'.format(self.motion))
-
     def _sensors_polling(self):
         self.camera = HikCamObject('http://192.168.1.64', 80, 'admin', 'admin1admin')
         self.sensors = []
@@ -66,7 +52,6 @@ class CameraStreamHTTP(ICameraStream):
     def __init__(self):
         import requests
         self._url = 'http://admin:admin1admin@192.168.1.64/Streaming/channels/1/picture?snapShotImageType=JPEG'
-        # self._url = "https://24smi.org/public/media/celebrity/2017/02/14/VTbS2hRAEwfe_vladimir-putin.jpg"
 
     def get_frame(self):
         import requests

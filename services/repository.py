@@ -8,7 +8,7 @@ from models.vector import Vector
 from services.service_interfaces import IRepository
 
 
-class Repository(IRepository):  # TODO: обращение к базе данных
+class Repository(IRepository):
     def __init__(self):
         self._control_points = []
         self._cameras = []

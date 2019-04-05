@@ -69,6 +69,3 @@ class Authorizer(IAuthorizer):
                 logger.info('Door opened for: {} with score - {}'.format(
                     user, score))
                 break
-
-        # TODO: проверка на соответсвие камер и дверей
-        # TODO: обрабатывать случай, если на камере нет лица

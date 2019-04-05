@@ -19,7 +19,7 @@ class AccessControlSystem(IAccessControlSystem):
         self._FlexACS = FlexServ.GetObject(token, "FlexACSModule.FlexACS")
         self._FlexACS.ConnectAll(None, 0)
         self._FlexDB = FlexServ.GetObject(token, "FlexDB.FlexDBModule")
-        self._path = "D:\\Октаграм\\client_temp\\" #TODO: брать из конфига
+        self._path = "D:\\Октаграм\\client_temp\\"
         self._last_time_accessed = datetime.datetime.now() - datetime.timedelta(seconds=6)
         self._last_user_accessed = User('','', Vector(''))
         logger = logging.getLogger(__name__)
@@ -48,10 +48,9 @@ class AccessControlSystem(IAccessControlSystem):
             logger = logging.getLogger(__name__)
             logger.exception(e)
 
-    def has_access(self, door: ControlPoint, user: User) -> bool: # можно кэшировать
+    def has_access(self, door: ControlPoint, user: User) -> bool:
         try:
             users = self._FlexDB.GetUsers4Device("S-1-0581B9AD-5CDC-4d86-A328-0D94A615A418")
-            # TODO: брать SID двери из ControlPoint
         except Exception as e:
             logger = logging.getLogger(__name__)
             logger.exception(e)
@@ -74,7 +73,7 @@ class AccessControlSystem(IAccessControlSystem):
             return None
 
         if len(photos)==0:
-            return None #TODO: исключения
+            return None
 
         with open(self._path + photos[0], 'rb') as pic:
             return pic.read()

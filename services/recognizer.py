@@ -4,9 +4,9 @@ import requests
 import logging
 
 
-class Recognizer(IRecognizer):  # TODO: обращение к серверу
+class Recognizer(IRecognizer):
     def __init__(self):
-        self._url = "http://192.168.1.108:8086/v1/prefix/pattern/"  # TODO: брать из конфига
+        self._url = "http://192.168.1.108:8086/v1/prefix/pattern/"
 
     def extract(self, picture) -> Vector:
         try:

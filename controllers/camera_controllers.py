@@ -75,11 +75,15 @@ class CameraStreamCV2(ICameraStream):
         import io
         import numpy as np
         import matplotlib.pyplot as plt
+        import datetime
 
         success, pic = self._video_capture.read()
         if success:
             buf = io.BytesIO()
+            logger = logging.getLogger(__name__)
+            logger.debug(datetime.datetime.now())
             pic = cv2.resize(pic, (1280, 720))
+            logger.debug(datetime.datetime.now())
             plt.imsave(buf, pic, format='png')
             pic_data = buf.getvalue()
             return pic_data

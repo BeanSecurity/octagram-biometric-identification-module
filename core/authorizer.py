@@ -15,7 +15,7 @@ class Authorizer(IAuthorizer):
         users = access_control_system.get_unidentified_users()
 
         logger = logging.getLogger(__name__)
-        logger.info('Unidentified users: ' + str(users))
+        logger.info('Users: ' + str(users))
 
         if users is None:
             return
@@ -28,6 +28,7 @@ class Authorizer(IAuthorizer):
 
             # проверка наличия фото юзера
             if pic is None:
+                logger.info('Photo is not found for user: ' + str(user))
                 continue
 
             logger.info('Extracting user photo: ' + str(user))
@@ -35,11 +36,11 @@ class Authorizer(IAuthorizer):
 
             # проверка наличия вектора обработанного изображения
             if (vector is None) or (vector.value == ''):
-                logger.info('Face on photo not found for user: ' + str(user))
+                logger.info('Face on photo is not found for user: ' + str(user))
                 continue
 
             repository.save_user(User(user.key_id, user.full_name, vector))
-            logger.info('Save user: ' + str(user))
+            logger.info('Save face vector for user: ' + str(user))
 
     def authorize(self, image):
 
@@ -48,7 +49,7 @@ class Authorizer(IAuthorizer):
             return
 
         logger = logging.getLogger(__name__)
-        logger.info('Face detected')
+        logger.info('Face detected on camera')
 
         users = self._repository.get_users()
         if users is None:
@@ -68,4 +69,6 @@ class Authorizer(IAuthorizer):
                 logger = logging.getLogger(__name__)
                 logger.info('Door opened for: {} with score - {}'.format(
                     user, score))
-                break
+                return
+
+        logger.info('No matches for face on camera')
